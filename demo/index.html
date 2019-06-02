@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <title>SMap</title>
+        <meta name="viewport" content="maximum-scale=1.0,width=device-width,initial-scale=1.0,user-scalable=0">
+
+        <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css">
+        <link rel="stylesheet" href="../node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css">
+        <link rel="stylesheet" href="../node_modules/leaflet-markercluster/dist/MarkerCluster.Default.css">
+
+        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="demo.css" />
+    </head>
+    <body>
+        <header class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">SMap</h1>
+                <p class="lead text-muted">SMap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet.</p>
+                <p>
+                    <a href="#" class="btn btn-primary my-2">...</a>
+                    <a href="#" class="btn btn-secondary my-2">...</a>
+                </p>
+            </div>
+        </header>
+
+        <section class="py-5 container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="map-1" class="map map--primary"></div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-group" id="map-source">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed" data-marker-id="1">
+                            <div>
+                                <h6 class="my-0">PHARMACIE ASSELIN SCANU</h6>
+                                <small class="text-muted lat">46.16101</small>
+                                <small class="text-muted lng">-1.14994</small>
+                            </div>
+                            <span class="text-muted">#1</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed" data-marker-id="2">
+                            <div>
+                                <h6 class="my-0">PHARMACIE DU GABUT</h6>
+                                <small class="text-muted lat">46.1555</small>
+                                <small class="text-muted lng">-1.14981</small>
+                            </div>
+                            <span class="text-muted">#2</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed" data-marker-id="3">
+                            <div>
+                                <h6 class="my-0">PHARMACIE DU MINAGE</h6>
+                                <small class="text-muted lat">46.1627</small>
+                                <small class="text-muted lng">-1.14941</small>
+                            </div>
+                            <span class="text-muted">#3</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed" data-marker-id="4">
+                            <div>
+                                <h6 class="my-0">PHARMACIE DE LA GENETTE</h6>
+                                <small class="text-muted lat">46.1593</small>
+                                <small class="text-muted lng">-1.16591</small>
+                            </div>
+                            <span class="text-muted">#4</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/leaflet/dist/leaflet.js"></script>
+        <script src="../node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.js"></script>
+        <script src="../node_modules/leaflet-markercluster/dist/leaflet.markercluster.js"></script>
+
+        <script src="../src/smap.js"></script>
+        <script src="../src/smap-marker.js"></script>
+
+        <script>
+            jQuery(document).ready(function ($) {
+                var markers = [];
+
+                var markerSVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 63.7"><path d="M52 26.4c0 5.2-2.1 10.5-6.5 16.2-3.9 5-9.2 9.8-13.6 14-1.7 1.5-3.3 3-4.7 4.4-1.5-1.4-3.1-2.9-4.7-4.4-4.6-4.2-9.7-9-13.6-14C4.1 36.9 2 31.6 2 26.4c0-3.3.7-6.5 1.9-9.5C5.2 14 7 11.4 9.2 9.1c2.4-2.2 5-4 7.9-5.2C20.2 2.7 23.6 2 26.9 2s6.7.7 9.7 1.9c2.9 1.2 5.7 3 7.9 5.3 2.4 2.2 4 4.9 5.4 7.8 1.4 2.8 2.1 6.1 2.1 9.4z" stroke="#fff" stroke-width="4"/></svg>';
+
+                /* Markers list
+                   ========================================================================== */
+                $('#map-source').children().each(function (i, item) {
+                    item = $(item);
+
+                    markers.push({
+                        position: [
+                            item.find('.lat').text(),
+                            item.find('.lng').text()
+                        ],
+                        icon: {
+                            html: markerSVG,
+                            iconSize: [40, 47],
+                            data: {
+                                id: item.attr('data-marker-id')
+                            }
+                        },
+                        popup: item.html(),
+                        sourceContainer: item
+                    });
+                });
+
+                /* Map declaration
+                   ========================================================================== */
+                var map = $('#map-1').sMap({
+                    map: {
+                        center: markers[0].position
+                    }
+                }).addMarkers(markers);
+            });
+        </script>
+    </body>
+</html>
