@@ -13,7 +13,7 @@ Smap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet
   
 
 **Démos :**
-* [Exemples d'utilisation SmapMarker](#Exemples-d'utilisation-SmapMarker)
+* [Exemples d'utilisation SmapMarker](#exemples-dutilisation-smapmarker)
 
 ---
 
@@ -206,8 +206,9 @@ Retourne l'objet L (Leaflet) représentant la carte associée au marker. Permet 
 
 * @return  *{L.map}* **map** 
 
+---
 
-### Exemples d'utilisation SmapMarker
+## Exemples d'utilisation
 
 Ci-dessous un exemple (à retrouver dans la démo) simple d'utilisation du script, avec l'implémentation de l'option Smap.sourceContainer.
 
