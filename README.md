@@ -13,7 +13,7 @@ Smap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet
   
 
 **Démos :**
-* [Exemples d'utilisation SmapMarker](#exemples-dutilisation-smapmarker)
+* [Exemples d'utilisation](#exemples-dutilisation)
 
 ---
 
