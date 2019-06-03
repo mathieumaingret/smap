@@ -1,5 +1,5 @@
 /**
- * SMapMarker
+ * SmapMarker
  */
 
 (function ($) {
@@ -9,10 +9,10 @@
      *
      * @param options
      * @param iconInterface
-     * @returns {$.SMapMarker}
+     * @returns {$.SmapMarker}
      * @constructor
      */
-    $.SMapMarker = function (options, iconInterface) {
+    $.SmapMarker = function (options, iconInterface) {
         /**
          * @type {{}}
          */
@@ -21,7 +21,9 @@
         /**
          * @type {{}}
          */
-        this.options = {};
+        this.options = {
+            cluster: undefined
+        };
 
         this.marker = undefined;
 
@@ -31,7 +33,7 @@
         this.popup = undefined;
 
         // Config
-        $.extend(true, this.options, $.SMapMarker.defaults, options);
+        $.extend(true, this.options, $.SmapMarker.defaults, options);
 
         // Init
         if (this.prepareOptions()) {
@@ -44,9 +46,8 @@
     /**
      *
      */
-    $.SMapMarker.defaults = {
+    $.SmapMarker.defaults = {
         position: undefined,
-        //cluster: undefined,
         customIcon: true,
         icon: {
             html: undefined,
@@ -72,7 +73,7 @@
     /**
      *
      */
-    $.SMapMarker.prototype = {
+    $.SmapMarker.prototype = {
         /**
          * @returns {boolean}
          */
@@ -194,14 +195,13 @@
                 self.options.sourceContainer.on('click', null, function () {
                     //self.setLog('log', 'sourceContainer click');
 
-                    //if (self.options.centerOnFocus === true) {
-                        //if (self.options.cluster !== undefined) {
-                        //    self.options.cluster.zoomToShowLayer(self.leaflet());
-                        //}
-                    //}
+                    if (self.options.centerOnFocus === true) {
+                        if (self.options.cluster !== undefined) {
+                           self.options.cluster.zoomToShowLayer(self.leaflet());
+                        }
+                    }
 
                     self.leaflet().openPopup();
-
                 });
             }
         },
@@ -237,7 +237,7 @@
          * @param log
          */
         setLog: function (type, log) {
-            console[type]('SMapMarker : ' + log);
+            console[type]('SmapMarker : ' + log);
         },
 
         /**

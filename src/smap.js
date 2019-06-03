@@ -1,5 +1,5 @@
 /**
- * SMap
+ * Smap
  */
 
 (function ($) {
@@ -11,7 +11,7 @@
      * @param options
      * @constructor
      */
-    $.SMap = function (element, options) {
+    $.Smap = function (element, options) {
         // HTML Elements
         this.elements = {
             container: element
@@ -32,7 +32,7 @@
         };
 
         // Config
-        $.extend(true, this.options, $.SMap.defaults, options);
+        $.extend(true, this.options, $.Smap.defaults, options);
 
         // Init
         if (this.prepareOptions() === true) {
@@ -45,7 +45,7 @@
     /**
      *
      */
-    $.SMap.defaults = {
+    $.Smap.defaults = {
         map: { // leaflet main options
             center: undefined,  // Map center [X, X]
             zoom: 10,
@@ -62,7 +62,7 @@
     /**
      *
      */
-    $.SMap.prototype = {
+    $.Smap.prototype = {
         /**
          * Test the existence of required elements
          */
@@ -240,7 +240,7 @@
 
             for (i; i < length; i++) {
                 markers[i].cluster = this.markers.cluster;
-                var marker = new $.SMapMarker(markers[i], this.markers.iconInterface);
+                var marker = new $.SmapMarker(markers[i], this.markers.iconInterface);
 
                 this.markers.items.push(marker);
                 this.markers.positions.push(marker.getLatLng());
@@ -324,7 +324,7 @@
          * @param log
          */
         setLog: function (type, log) {
-            console[type]('SMap : ' + log);
+            console[type]('Smap : ' + log);
         },
 
         /**
@@ -349,8 +349,8 @@
      * @param options
      * @returns {*}
      */
-    $.fn.sMap = function (options) {
-        return new $.SMap($(this), options);
+    $.fn.smap = function (options) {
+        return new $.Smap($(this), options);
     };
 
 })(jQuery);

@@ -8,6 +8,7 @@ const plugins = require('gulp-load-plugins')({
 function minify(pumpCallback) {
     return plugins.pump([
         plugins.gulp.src('./src/**/*.js'),
+        plugins.concat('smap.js'),
         plugins.uglify(),
         plugins.rename(function (path) {
             path.extname = '.min.js'

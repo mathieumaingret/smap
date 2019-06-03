@@ -1,6 +1,6 @@
-# Documentation SMap
+# Documentation Smap
 
-SMap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet.
+Smap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet.
 
 * Compatibilité : 
     * IE11+
@@ -13,23 +13,23 @@ SMap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet
 
 ---
 
-## Créer des cartes SMap
+## Créer des cartes Smap
 
 ```
-var sMap = $('#map').sMap([options]);
+var smap = $('#map').smap([options]);
 ```
     
-* @param *{object}* **options**  (optionnel) [Options de SMap](#options-smap)
+* @param *{object}* **options**  (optionnel) [Options de Smap](#options-smap)
 
     ```
-    var sMap = $('#map').sMap({
+    var smap = $('#map').smap({
         map: {
             center: [46.16101, -1.14994]
         }
     });
     ```
 
-### Options SMap
+### Options Smap
 
 | Option                           | Type     | Valeur par défaut | Description                                               |
 |----------------------------------|----------|-------------------|-----------------------------------------------------------|
@@ -50,7 +50,7 @@ var sMap = $('#map').sMap([options]);
 
 (**) Exemples de fonds de carte : https://leaflet-extras.github.io/leaflet-providers/preview/
 
-### API SMap
+### API Smap
 
 #### leaflet()
 
@@ -59,7 +59,7 @@ Retourne l'objet L (Leaflet) représentant la carte.  Permet ensuite d'utiliser 
 * @return  *{L.map}* **map** 
 
 ```
-var leafletMap = sMap.leaflet();
+var leafletMap = smap.leaflet();
 ```
 
 #### setCenter()
@@ -69,7 +69,7 @@ Change le centre de la carte
 * @param {array} **center** Tableau à 2 entrées [lat, lng]
 
 ```
-sMap.setCenter([46.16101, -1.14994]);
+smap.setCenter([46.16101, -1.14994]);
 ```
 
 #### setZoom()
@@ -79,7 +79,7 @@ Change le zoom actuel de la carte. Doit être compris entre minZoom et maxZoom
 * @param *{int}* **zoom** Zoom
 
 ```
-sMap.setZoom(14);
+smap.setZoom(14);
 ```
 
 #### setMapOptions()
@@ -89,7 +89,7 @@ Modifie globalement certaines options de Leaflet. Voir [API Leaflet](#api-leafle
 * @param  *{object}* **options** Objet contenant les options à modifier
 
 ```
-sMap.setMapOptions({
+smap.setMapOptions({
    zoomPosition: 'bottomleft',
    minZoom: 10
 });
@@ -100,7 +100,7 @@ sMap.setMapOptions({
 Recentre la carte soit selon la position de toutes les markers, soit selon le centre de la carte. 
 
 ```
-sMap.fitBounds();
+smap.fitBounds();
 ```
 
 #### addMarkers()
@@ -124,7 +124,7 @@ var markers = [
     }
 ];
 // Add to map 
-var map = $('#map').sMap({
+var map = $('#map').smap({
     map: {
         center: markers[0].position
     }
@@ -135,7 +135,7 @@ var map = $('#map').sMap({
 
 Retourne la liste des markers
 
-* @return  *{SMapMarkers[]}* Tableau d'objets [SMapMarkers](#options-SMapMarker) représentant l'ensemble des markers présents sur la carte.
+* @return  *{SmapMarkers[]}* Tableau d'objets [SmapMarkers](#options-SmapMarker) représentant l'ensemble des markers présents sur la carte.
 
 ```
 var mapMarkers = map.getMarkers();
@@ -144,11 +144,11 @@ var mapMarkers = map.getMarkers();
 ---
 
 
-## Créer des markers : SMapMarker
+## Créer des markers : SmapMarker
 
-Vous n'avez pas besoin d'initialiser vous-même la classe SMapMarker, SMap s'en charge via la méthode [SMap.addMarkers](#addmarkers)
+Vous n'avez pas besoin d'initialiser vous-même la classe SmapMarker, Smap s'en charge via la méthode [Smap.addMarkers](#addmarkers)
 
-### Options SMapMarker
+### Options SmapMarker
 
 | Option                           | Type     | Valeur par défaut | Description                                               |
 |----------------------------------|----------|-------------------|-----------------------------------------------------------|
@@ -162,7 +162,7 @@ Vous n'avez pas besoin d'initialiser vous-même la classe SMapMarker, SMap s'en 
 | popup                            | string/jQuery object | undefined  | Contenu du la popup si besoin |
 | showPopup                        | boolean  | false             | Affiche la popup du marker directement à sa création. Idéal dans le cas d'une carte avec un seul marker |
 | centerOnFocus                    | boolean  | true              | Au focus/click sur le marker, la carte se centre sur ses coordonnées. A utiliser avec précaution si les popup ont beaucoup de contenu (leur hauteur ne sera plus prise en compte, et elles pourraient être coupées à l'affichage. |
-| sourceContainer                  | jQuery object | undefined    | Référence à un élément HTML qui représente le marker et ses informations ailleurs dans la page, et permet des intéractions entre les deux. Au hover/focus sur le marker, une classe est ajouté à l'élément HTML désigné ici, et inversement. Voir [Exemples d'utilisation](#Exemples d'utilisation SMapMarker) |
+| sourceContainer                  | jQuery object | undefined    | Référence à un élément HTML qui représente le marker et ses informations ailleurs dans la page, et permet des intéractions entre les deux. Au hover/focus sur le marker, une classe est ajouté à l'élément HTML désigné ici, et inversement. Voir [Exemples d'utilisation](#Exemples d'utilisation SmapMarker) |
 | classes                          | object   | Voir ci-dessous   | Objet pour les options ci-dessous                         |
 | &nbsp;&nbsp;&nbsp;&nbsp;prefix   | string   | 'marker'          | Préfix de classe                                          |
 | &nbsp;&nbsp;&nbsp;&nbsp;marker   | string   | '{prefix}--default' | Variante du marker                                      |
@@ -170,7 +170,7 @@ Vous n'avez pas besoin d'initialiser vous-même la classe SMapMarker, SMap s'en 
 | &nbsp;&nbsp;&nbsp;&nbsp;focused  | string   | 'is-focused'      | Classe au survol du marker (hover par exemple)            |
 | &nbsp;&nbsp;&nbsp;&nbsp;active   | string   | 'is-active'       | Classe au click sur un marker, popup ouverte              |
 
-### API SMapMarker
+### API SmapMarker
 
 #### getPosition()
 
@@ -203,9 +203,9 @@ Retourne l'objet L (Leaflet) représentant la carte associée au marker. Permet 
 * @return  *{L.map}* **map** 
 
 
-### Exemples d'utilisation SMapMarker
+### Exemples d'utilisation SmapMarker
 
-Ci-dessous un exemple (à retrouver dans la démo) simple d'utilisation du script, avec l'implémentation de l'option SMap.sourceContainer.
+Ci-dessous un exemple (à retrouver dans la démo) simple d'utilisation du script, avec l'implémentation de l'option Smap.sourceContainer.
 
 
 **HTML : Liste d'informations et carte**
@@ -262,7 +262,7 @@ $('#map-source').children().each(function (i, item) {
 
 /* Map declaration
    ========================================================================== */
-var map = $('#map-1').sMap({
+var map = $('#map-1').smap({
     map: {
         center: markers[0].position
     }
