@@ -2,21 +2,21 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8" />
-        <title>SMap</title>
+        <title>Smap</title>
         <meta name="viewport" content="maximum-scale=1.0,width=device-width,initial-scale=1.0,user-scalable=0">
 
-        <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css">
-        <link rel="stylesheet" href="../node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css">
-        <link rel="stylesheet" href="../node_modules/leaflet-markercluster/dist/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <link rel="stylesheet" href="https://elmarquis.github.io/Leaflet.GestureHandling/dist/leaflet-gesture-handling.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
 
-        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="demo.css" />
     </head>
     <body>
         <header class="jumbotron text-center">
             <div class="container">
-                <h1 class="jumbotron-heading">SMap</h1>
-                <p class="lead text-muted">SMap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet.</p>
+                <h1 class="jumbotron-heading">Smap</h1>
+                <p class="lead text-muted">Smap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet.</p>
                 <p>
                     <a href="#" class="btn btn-primary my-2">...</a>
                     <a href="#" class="btn btn-secondary my-2">...</a>
@@ -68,13 +68,12 @@
             </div>
         </section>
 
-        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="../node_modules/leaflet/dist/leaflet.js"></script>
-        <script src="../node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.js"></script>
-        <script src="../node_modules/leaflet-markercluster/dist/leaflet.markercluster.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+        <script src="https://elmarquis.github.io/Leaflet.GestureHandling/dist/leaflet-gesture-handling.min.js"></script>
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
-        <script src="../src/smap.js"></script>
-        <script src="../src/smap-marker.js"></script>
+        <script src="../dist/smap.min.js"></script>
 
         <script>
             jQuery(document).ready(function ($) {
@@ -106,7 +105,7 @@
 
                 /* Map declaration
                    ========================================================================== */
-                var map = $('#map-1').sMap({
+                var map = $('#map-1').smap({
                     map: {
                         center: markers[0].position
                     }
