@@ -10,6 +10,10 @@ Smap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet
 * Dépendances facultatives :
    * [Leaflet.GestureHandling](https://github.com/elmarquis/Leaflet.GestureHandling) : 1.1.8
    * [Leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster) 1.4.1
+  
+
+**Démos :**
+* [Exemples d'utilisation SmapMarker](#Exemples d'utilisation SmapMarker)
 
 ---
 
@@ -207,6 +211,7 @@ Retourne l'objet L (Leaflet) représentant la carte associée au marker. Permet 
 
 Ci-dessous un exemple (à retrouver dans la démo) simple d'utilisation du script, avec l'implémentation de l'option Smap.sourceContainer.
 
+**[Démo disponible ici](demo/index.html)**
 
 **HTML : Liste d'informations et carte**
 
