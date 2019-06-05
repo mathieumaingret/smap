@@ -1,6 +1,6 @@
 {
   "name": "@mathieumaingret/smap",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "./dist/smap.min.js",
   "repository": {
     "type": "git",
@@ -11,8 +11,8 @@
   "dependencies": {
     "jquery": ">=3.3.0",
     "leaflet": "1.5.1",
-    "leaflet-gesture-handling": "git://github.com/elmarquis/Leaflet.GestureHandling",
-    "leaflet-markercluster": "git://github.com/Leaflet/Leaflet.markercluster#1.4.1"
+    "leaflet.markercluster": "^1.4.1",
+    "leaflet-gesture-handling": "^1.1.8"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
