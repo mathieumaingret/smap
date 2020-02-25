@@ -4,7 +4,7 @@ Smap permet de simplifier l'utilisation de cartes OpenStreeMap via l'API Leaflet
 
 * Compatibilité : 
     * IE11+
-* Dépendances recquises : 
+* Dépendances requises : 
    * jQuery >= 3.3.0
    * [Leaflet](https://leafletjs.com/download.html) >= 1.5.1
 * Dépendances facultatives :

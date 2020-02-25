@@ -55,7 +55,8 @@
                 id: undefined,
             },
             iconSize: [50, 50],
-            popupAnchor: [0, -20]
+            iconAnchor: [],
+            popupAnchor: []
         },
         popup: undefined,
         showPopup: false, // Popup affichée dès le chargement
@@ -88,6 +89,14 @@
             if (self.options.position === undefined || typeof self.options.position !== 'object') {
                 self.setLog('error', 'Missing required position parameter as array');
                 return false;
+            }
+
+            // Anchors
+            if (self.options.icon.iconAnchor.length === 0) {
+                self.options.icon.iconAnchor = [Math.floor(self.options.icon.iconSize[0]/2), self.options.icon.iconSize[1]];
+            }
+            if (self.options.icon.popupAnchor.length === 0) {
+                self.options.icon.popupAnchor = [0, - Math.floor(self.options.icon.iconSize[1]/1.5)];
             }
 
             // Classes
