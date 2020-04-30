@@ -9,7 +9,7 @@
   "author": "Mathieu MAINGRET <mathieu@leszebres.fr>",
   "license": "MIT",
   "dependencies": {
-    "jquery": ">=3.3.0",
+    "jquery": ">=3.5.0",
     "leaflet": "^1.6.0",
     "leaflet-gesture-handling": "^1.1.8",
     "leaflet.markercluster": "^1.4.1"
