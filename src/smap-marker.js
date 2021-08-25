@@ -1,39 +1,26 @@
-/**
- * SmapMarker
- */
-
 (function ($) {
     'use strict';
 
     /**
+     * SmapMarker
      *
-     * @param options
-     * @param iconInterface
-     * @returns {$.SmapMarker}
-     * @constructor
+     * @param {object} options
+     * @param {object} iconInterface
+     *
+     * @return {$.SmapMarker}
      */
     $.SmapMarker = function (options, iconInterface) {
-        /**
-         * @type {{}}
-         */
-        this.elements = {};
-
-        /**
-         * @type {{}}
-         */
+        // Config
         this.options = {
-            cluster: undefined
+            //cluster: undefined
         };
+        $.extend(true, this.options, $.SmapMarker.defaults, options);
 
-        this.marker = undefined;
-
+        this.layer = undefined;
         this.icon = undefined;
         this.iconInterface = iconInterface;
-
         this.popup = undefined;
 
-        // Config
-        $.extend(true, this.options, $.SmapMarker.defaults, options);
 
         // Init
         if (this.prepareOptions()) {
@@ -43,9 +30,6 @@
         return this;
     };
 
-    /**
-     *
-     */
     $.SmapMarker.defaults = {
         position: undefined,
         customIcon: true,
@@ -59,35 +43,38 @@
             popupAnchor: []
         },
         popup: undefined,
-        showPopup: false, // Popup affichée dès le chargement
+        popupOptions: undefined,
+        //showPopup: false, // Popup affichée dès le chargement
         centerOnFocus: true,
         sourceContainer: undefined,
+        sourceContainerEvent: 'mouseenter focus',
+        sourceContainerSelector: '.js-map-trigger',
+        cluster: undefined,
+        data: {},
         classes: {
-            prefix: 'marker',
-            marker: '{prefix}--default',
-            popup: '{prefix}-popup',
+            prefix: 'smap-marker',
+            layer: '{prefix}--default',
             focused: 'is-focused',
             active: 'is-active'
         }
     };
 
-    /**
-     *
-     */
     $.SmapMarker.prototype = {
         /**
-         * @returns {boolean}
+         * Prepare user options
+         *
+         * @return {boolean}
          */
         prepareOptions: function () {
             var self = this;
 
             if (typeof L === 'undefined') {
-                self.setLog('error', '"L" function from Leaflet is undefined');
+                $.Smap.prototype.setLog('"L" function from Leaflet is undefined.', 'error');
                 return false;
             }
 
             if (self.options.position === undefined || typeof self.options.position !== 'object') {
-                self.setLog('error', 'Missing required position parameter as array');
+                $.Smap.prototype.setLog('Missing required position parameter as array.', 'error');
                 return false;
             }
 
@@ -104,85 +91,56 @@
                 if (typeof value === 'string') {
                     self.options.classes[key] = value.replace(/{prefix}/, self.options.classes.prefix);
                 }
-                self.options.icon.className = self.options.classes.prefix + ' ' + self.options.classes.marker;
+                self.options.icon.className = self.options.classes.prefix + ' ' + self.options.classes.layer;
             });
 
             return true;
         },
 
         /**
-         *
+         * Instantiate
          */
         init: function () {
+            var self = this;
             var options = {};
 
             // Instance d'un icon de marker
-            if (this.options.customIcon === true) {
-                this.icon = new this.iconInterface(this.options.icon);
+            if (self.options.customIcon === true) {
+                self.icon = new self.iconInterface(self.options.icon);
 
-                options.icon = this.icon;
+                options.icon = self.icon;
             }
 
-            // Instance du marker
-            this.marker = L.marker(this.options.position, options);
+            // Add
+            options.smap_init_options = self.options;
 
-            if (this.options.customIcon === true && this.options.icon.html !== undefined) {
-                this.getContainer().html(this.options.icon.html);
+            // Instance du marker
+            self.layer = L.marker(self.options.position, options);
+            self.layer.layerType = 'marker';
+
+            if (self.options.customIcon === true && self.options.icon.html !== undefined) {
+                self.getContainer().html(self.options.icon.html);
             }
 
             // Popup
-            this.managePopup();
-        },
-
-        /**
-         *
-         */
-        managePopup: function () {
-            var self = this;
-
             if (self.options.popup !== undefined) {
-                if (typeof self.options.popup === 'object') {
-                    self.options.popup.html();
-                }
-
-                var popupContent = $('<div>', {
-                    'class': self.options.classes.popup,
-                    html: self.options.popup
-                });
-
-                self.popup = self.leaflet().bindPopup(popupContent.prop('outerHTML'));
-            }
-        },
-
-        /**
-         *
-         */
-        handleInteractions: function () {
-            var self = this;
-
-            // Load
-            if (self.options.showPopup === true) {
-                self.leaflet().openPopup();
+                self.popup = new $.SmapPopup(self.getLayer(), self.options, self.options.popupOptions);
             }
 
             // Events
-            this.leaflet().on({
+            self.getLayer().on({
                 'click': function () {
-                    //self.setLog('log', 'click');
                     if (self.options.centerOnFocus === true) {
-                        self.map().setView(self.leaflet().getLatLng());
+                        self.map().setView(self.getLayer().getLatLng());
                     }
                 },
                 'mouseover': function () {
-                    //self.setLog('log', 'mouseover');
                     self.getContainer().addClass(self.options.classes.focused);
                 },
                 'mouseout': function () {
-                    //self.setLog('log', 'mouseout');
                     self.getContainer().removeClass(self.options.classes.focused);
                 },
                 'popupopen': function () {
-                    //self.setLog('log', 'popupopen');
                     self.getContainer().addClass(self.options.classes.active);
 
                     if (self.options.sourceContainer !== undefined) {
@@ -190,7 +148,6 @@
                     }
                 },
                 'popupclose': function () {
-                    //self.setLog('log', 'popupclose');
                     self.getContainer().removeClass(self.options.classes.active);
 
                     if (self.options.sourceContainer !== undefined) {
@@ -201,68 +158,93 @@
 
             // Click on source target => focus on corresponding marker
             if (self.options.sourceContainer !== undefined) {
-                self.options.sourceContainer.on('click', null, function () {
-                    //self.setLog('log', 'sourceContainer click');
+                if (self.options.centerOnFocus === true && self.options.cluster !== undefined) {
+                    var timeout = undefined;
 
-                    if (self.options.centerOnFocus === true) {
-                        if (self.options.cluster !== undefined) {
-                           self.options.cluster.zoomToShowLayer(self.leaflet());
+                    var execution = function () {
+                        self.options.cluster.zoomToShowLayer(self.getLayer(), function () {
+                            if (self.popup !== undefined) {
+                                self.popup.getLayer().openPopup();
+                            }
+                        });
+                    };
+
+                    var events = self.options.sourceContainerEvent.split(' ').join('.smapsourceinteraction ') + '.smapsourceinteraction';
+                    self.options.sourceContainer.on(events, self.options.sourceContainerSelector,  function () {
+                        if (self.options.sourceContainerEvent !== 'click') {
+                            if (timeout !== undefined) {
+                                clearTimeout(timeout);
+                            }
+                            timeout = setTimeout(function () {
+                                execution();
+                            }, 600);
+                        } else {
+                            execution();
                         }
-                    }
+                    });
 
-                    self.leaflet().openPopup();
+                    self.options.sourceContainer.on('mouseleave.smapsourceinteraction', self.options.sourceContainerSelector, function () {
+                        if (timeout !== undefined) {
+                            clearTimeout(timeout);
+                        }
+                    });
+                }
+            }
+
+
+            // Custom events
+            if (self.options.events !== undefined) {
+                $.each(self.options.events, function (event, callback) {
+                    self.getLayer().on(event, callback);
                 });
             }
+
+            return this;
         },
 
         /**
+         * Return lat,lng array
          *
-         * @returns {*}
+         * @return {array}
          */
         getPosition: function () {
             return this.options.position;
         },
 
         /**
+         * Return lat,lng Leaflet object
          *
-         * @returns {*|boolean}
+         * @return {object}
          */
         getLatLng: function () {
-            return this.leaflet().getLatLng();
+            return this.getLayer().getLatLng();
         },
 
         /**
+         * Return current layer
          *
-         * @returns {*|jQuery|HTMLElement}
+         * @return {object}
+         */
+        getLayer: function () {
+            return this.layer;
+        },
+
+        /**
+         * Return the layer container
+         *
+         * @return {jQuery}
          */
         getContainer: function () {
-            return $(this.leaflet()._icon);
-        },
-
-
-        /**
-         *
-         * @param type
-         * @param log
-         */
-        setLog: function (type, log) {
-            console[type]('SmapMarker : ' + log);
+            return $(this.getLayer()._icon);
         },
 
         /**
+         * Return the associated map
          *
-         * @returns {*}
-         */
-        leaflet: function () {
-            return this.marker;
-        },
-
-        /**
-         *
-         * @returns {*}
+         * @return {object}
          */
         map: function () {
-            return this.leaflet()._map;
+            return this.getLayer()._map;
         }
     };
 
